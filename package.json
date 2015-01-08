@@ -1,0 +1,38 @@
+{
+  "name": "treecolors",
+  "version": "0.0.0",
+  "description": "The best module ever.",
+  "homepage": "e-.github.io/TreeColors.js",
+  "author": {
+    "name": "Jaemin Jo",
+    "email": "jmjo@hcil.snu.ac.kr",
+    "url": "www.jaeminjo.com"
+  },
+  "repository": "e-/treecolors",
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "treecolors",
+    "tree",
+    "color scheme",
+    "hierarchy",
+    "hsl",
+    "perception"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-nodeunit": "^0.4.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "load-grunt-tasks": "^1.0.0",
+    "time-grunt": "^1.0.0",
+    "grunt-mocha-cli": "^1.11.0",
+    "jshint-stylish": "^1.0.0"
+  },
+  "scripts": {
+    "test": "grunt"
+  }
+}
