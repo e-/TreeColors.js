@@ -1,103 +1,227 @@
 (function(){
   'use strict';
-
-  /*
-    nodes: nodes
-    range: hue range, e.g) [0, 180], [180, 120]
-    frac: hue fraction (0 <= f <= 1)
-    perm: boolean permutation flag
-    rev: boolean reverse flag
-  */
-
-  function permutate(r){
-    var n = r.length;
-
-    if(n <= 2) return r;
-    if(n === 3) return [0, 2, 1];
-    if(n === 4) return [0, 2, 1, 3];
-
-    // 144 is not a magic number. It because the used permutation order is based on five-elements-permutation.
-    var unitAngle = 360 / n,
-        pickingAngle = Math.floor(144 / unitAngle) * unitAngle,
-        permutated = new Array(n),
-        picked = new Array(n),
-        angle = 0
+  var ep = 1e-6;
+  function TreeColors() {
+    var children = 'children',
+        color = 'color',
+        range = [0, 360],
+        fraction = 0.75,
+        permutate = true,
+        reverse = true,
+        luminanceStart = 70,
+        luminanceDelta = -10,
+        chromaStart = 60,
+        chromaDelta = 5,
+        rootColor = {h: 0, c: 100, l: 100}
         ;
 
-    for(var i = 0; i < n; ++i){
-      var index = Math.floor(angle / unitAngle);
+    function getChildren(node) {
+      if(typeof children == 'string') {
+        return node[children];
+      } else {
+        return children.call(node);
+      }
+      throw new Error('Cannot get the children of a node! Please set the \'children\' property properly.');
+    }
 
-      permutated[i] = r[index];
-      picked[index] = true;
+    function setColor(node, c) {
+      if(typeof color == 'string') {
+        node[color] = c;
+      } else {
+        color.call(node, c);
+      }
+      throw new Error('Cannot set the color of a node! Please set the \'color\' property properly.');
+    }
 
-      angle = (angle + pickingAngle) % 360;
+    function getPermutationSequence(n){
+      if(n <= 2) return [0, 1];
+      if(n === 3) return [0, 2, 1];
+      if(n === 4) return [0, 2, 1, 3];
 
-      if(i < n - 1) {
-        while(picked[Math.floor(angle / unitAngle)]) {
-          angle = (angle + unitAngle) % 360;
+      // 144 is not a magic number. It is because the used permutation order is based on five-elements-permutation.
+      var unitAngle = 360 / n,
+          pickingAngle = Math.floor(144 / unitAngle) * unitAngle,
+          sequence = new Array(n),
+          picked = new Array(n),
+          angle = 0
+          ;
+
+      for(var i = 0; i < n; ++i){
+        var index = Math.floor(angle / unitAngle + ep);
+
+        sequence[i] = index;
+        picked[index] = true;
+
+        angle = (angle + pickingAngle) % 360;
+
+        if(i < n - 1) {
+          while(picked[Math.floor(angle / unitAngle)]) {
+            angle = (angle + unitAngle) % 360;
+          }
         }
       }
+
+      return sequence;
     }
 
-    return permutated;
-  }
+    function doPermutation(r) {
+      var n = r.length,
+          sequence = getPermutationSequence(n),
+          permutated = new Array(n);
 
-  function test(n){
-    var arr = Array.apply(null, {length: n}).map(Number.call, Number);
-    arr = permutate(arr);
-    console.log(arr.map(function(t){return String.fromCharCode(65 + t);}));
-  }
+      r.forEach(function(value, index) {
+        permutated[sequence[index]] = value;
+      });
 
-  for(var i = 3; i<=12;++i) {
-    test(i);
-  }
-
-  function assignHue(nodes, range, frac, perm, rev) {
-    // Let N be the number of child nodes of v. If N > 0 :
-    var n = nodes.length;
-
-    if(n === 0) return;
-
-    var delta = (range[1] - range[0]) / n;
-
-    //1. divide range in N equal parts ri with i = 1, ... ,N;
-    //   For convenience, we will use i = 0, ... , n - 1 instead of i = 1, ..., n
-    var r = Array.apply(null, {length: n}).map(Number.call, Number);
-
-    //2. if perm then permute the ri’s;
-    if(perm) {
-      r = permutate(r);
+      return permutated;
     }
 
-    //3. convert each ri to a hue range (e.g. [30, 50])
+    function assignHue(node, range, level) {
+      // select the middle hue value in range as the hue value of node
+      if(level === 0) { // node is the root
+        setColor(node, rootColor);
+      } else {
+        setColor(node, {h: (range[0] + range[1]) / 2, c: chromaStart + chromaDelta * level, l: luminanceStart + luminanceDelta * level});
+      }
 
-    r = r.map(function(i) { return [
-      range[0] + i * delta,
-      range[0] + (i + 1) * delta
-    ]; });
+      // Let N be the number of child nodes of v. If N > 0 :
+      var n = getChildren(node).length;
+
+      if(n === 0) return;
+
+      var delta = (range[1] - range[0]) / n;
+
+      //1. divide range in N equal parts ri with i = 1, ... ,N;
+      //   For convenience, we will use i = 0, ... , n - 1 instead of i = 1, ..., n
+      var r = Array.apply(null, {length: n}).map(Number.call, Number);
+
+      //2. if perm then permute the ri’s;
+      if(perm) {
+        r = doPermutation(r);
+      }
+
+      //3. convert each ri to a hue range (e.g. [30, 50])
+
+      r = r.map(function(i) { return [
+        range[0] + i * delta,
+        range[0] + (i + 1) * delta
+      ]; });
 
 
-    //4. reduce each ri by keeping its middle fraction f ;
-    //   In the algorithm described in the paper, we reverse each ri first.
-    //   However, now, we reverse them later.
+      //4. reduce each ri by keeping its middle fraction ;
+      //   In the algorithm described in the paper, we reverse each ri first.
+      //   However, now, we reverse them later.
 
-    r = r.map(function(range) { return [
-      range[0] + (range[1] - range[0]) * (f / 2),
-      range[1] - (range[1] - range[0]) * (f / 2)
-    ] });
+      r = r.map(function(range) { return [
+        range[0] + (range[1] - range[0]) * (fraction / 2),
+        range[1] - (range[1] - range[0]) * (fraction / 2)
+      ] });
 
-    //5. if rev then reverse the even-numbered ri’s;
-    if(rev) {
+      //5. if rev then reverse the even-numbered ri’s;
+      if(rev) {
+        r = r.map(function(range, i) {
+          if(i % 2 == 0) {
+            return [range[1], range[0]];
+          }
+          return range;
+        });
+      }
+
+      //6. for each child node vi call assignHue recursively.
+
+      getChildren(node).forEach(function(child, i){
+        assignHue(child, r[i], level + 1);
+      });
     }
 
-    //5. for each child node vi DO AssignHue(vi, ri, f , perm, rev).
-
-  }
-
-  function TreeColors() {
-    function treeColor() {
-
+    function treeColor(root) {
+      assignHue(root, range, 0);
     }
+
+    treeColor.children = function(value) {
+      if(!arguments.length) return children;
+      children = value;
+      return treeColor;
+    };
+
+    treeColor.color = function(value){
+      if(!arguments.length) return color;
+      color = value;
+      return treeColor;
+    };
+
+    treeColor.range = function(value) {
+      if(!arguments.length) return range;
+      range = value;
+      return treeColor;
+    };
+
+    treeColor.fraction = function(value) {
+      if(!arguments.length) return fraction;
+      fraction = value;
+      return treeColor;
+    };
+
+    treeColor.permutate = function(value) {
+      if(!arguments.length) return permutate;
+      permutate = value;
+      return treeColor;
+    };
+
+    treeColor.reverse = function(value) {
+      if(!arguments.length) return reverse;
+      reverse = value;
+      return treeColor;
+    };
+
+    treeColor.luminance = function(value) {
+      if(!arguments.length) return [luminanceStart, luminanceDelta];
+      luminanceStart = value[0];
+      luminanceDelta = value[1];
+      return treeColor;
+    };
+
+    treeColor.luminanceStart = function(value) {
+      if(!arguments.length) return luminanceStart;
+      luminanceStart = value;
+      return treeColor;
+    };
+
+    treeColor.luminanceDelta = function(value) {
+      if(!arguments.length) return luminanceDelta;
+      luminanceDelta = value;
+      return treeColor;
+    };
+
+    treeColor.chroma = function(value) {
+      if(!arguments.length) return [chromaStart, chromaDelta];
+      chromaStart = value[0];
+      chromeDelta = value[1];
+      return treeColor;
+    };
+
+    treeColor.chromaStart = function(value) {
+      if(!arguments.length) return chromaStart;
+      chromaStart = value;
+      return treeColor;
+    };
+
+    treeColor.chromaDelta = function(value) {
+      if(!arguments.length) return chromeDelta;
+      chromaDelta = value;
+      return treeColor;
+    };
+
+    treeColor.rootColor = function(value) {
+      if(!arguments.length) return rootColor;
+      rootColor = value;
+      return treeColor;
+    };
+
+    treeColor.preset = function(value) {
+      ;
+      return treeColor;
+    };
   }
 
   if (typeof define === 'function' && define.amd) {
@@ -110,54 +234,3 @@
     window.TreeColors = TreeColors;
   }
 })();
-
-/*define(['d3'], function(){
-  d3.treeColor = function(){
-    var hueRange = [0, 360];
-
-    function permutate(ranges){
-      var n = ranges.length,
-          m = Math.ceil(Math.sqrt(n)),
-          arr = new Array(n * n);
-
-      ranges.forEach(function(range, i){
-        var row = Math.floor(i / m),
-            col = i % m;
-
-        arr[col * m + row] = range;
-      });
-
-      return arr.filter(function(range){return range;});
-    }
-
-    function assignColors(data, range){
-      data.color = d3.hcl((range[0] + range[1]) / 2, 55 - 5 * data.level, 65 + 10 * data.level);
-
-      if(data.level == 0)
-        data.color = d3.hcl(0, 0, 80);
-
-      if(!data.children) return;
-
-      var
-          n = data.children.length,
-          delta = (range[1] - range[0]) / n,
-          padding = delta > 0 ? .25 : -.25,
-          ranges = []
-          ;
-      d3.range(n).forEach(function(i){
-        r
-        nges.push([range[0] + delta * i + padding * delta, range[0] + delta * (i + 1) - padding * delta]);
-      });
-      ranges = permutate(ranges);
-      data.children.forEach(function(child, i){
-        assignColors(child, (i % 2 == 0 ? ranges[i] : [ranges[i][1], ranges[i][0]]));
-      });
-    }
-
-    function treeColor(data){
-      assignColors(data, hueRange);
-    }
-
-    return treeColor;
-  };
-});*/
