@@ -16,7 +16,7 @@
         ;
 
     function getChildren(node) {
-      if(typeof children == 'string') {
+      if(typeof children === 'string') {
         return node[children];
       } else {
         return children.call(node);
@@ -25,7 +25,7 @@
     }
 
     function setColor(node, c) {
-      if(typeof color == 'string') {
+      if(typeof color === 'string') {
         node[color] = c;
       } else {
         color.call(node, c);
@@ -96,7 +96,7 @@
       var r = Array.apply(null, {length: n}).map(Number.call, Number);
 
       //2. if perm then permute the ri’s;
-      if(perm) {
+      if(permutate) {
         r = doPermutation(r);
       }
 
@@ -115,12 +115,12 @@
       r = r.map(function(range) { return [
         range[0] + (range[1] - range[0]) * (fraction / 2),
         range[1] - (range[1] - range[0]) * (fraction / 2)
-      ] });
+      ]; });
 
       //5. if rev then reverse the even-numbered ri’s;
-      if(rev) {
+      if(reverse) {
         r = r.map(function(range, i) {
-          if(i % 2 == 0) {
+          if(i % 2 === 0) {
             return [range[1], range[0]];
           }
           return range;
@@ -196,7 +196,7 @@
     treeColor.chroma = function(value) {
       if(!arguments.length) return [chromaStart, chromaDelta];
       chromaStart = value[0];
-      chromeDelta = value[1];
+      chromaDelta = value[1];
       return treeColor;
     };
 
@@ -207,7 +207,7 @@
     };
 
     treeColor.chromaDelta = function(value) {
-      if(!arguments.length) return chromeDelta;
+      if(!arguments.length) return chromaDelta;
       chromaDelta = value;
       return treeColor;
     };
@@ -219,7 +219,9 @@
     };
 
     treeColor.preset = function(value) {
-      ;
+      if(value === 1) {
+      } else {
+      }
       return treeColor;
     };
   }
