@@ -49,6 +49,9 @@ var Treemap = (function(){
             .style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
             .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
       }
+    },
+    update: function(){
+      node.style("background", function(d) { return d.children ? d3.hcl(d.color.h, d.color.c, d.color.l) : null; })
     }
   };
 })();
@@ -93,6 +96,9 @@ var RadialTree = (function(){
           .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
           .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
           .text(function(d) { return d.name; });
+    },
+    update: function(){
+      svg.selectAll('circle').attr("stroke", function(d){return d3.hcl(d.color.h, d.color.c, d.color.l).rgb();});
     }
   };
 })();
@@ -115,6 +121,8 @@ var Sunburst = (function(){
       .innerRadius(function(d) { return Math.sqrt(d.y); })
       .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
 
+  var path;
+
   // Stash the old values for transition.
   function stash(d) {
     d.x0 = d.x;
@@ -134,47 +142,50 @@ var Sunburst = (function(){
 
   return {
     draw: function(root) {
-      var path = svg.datum(root).selectAll("path")
+      path = svg.datum(root).selectAll("path")
           .data(partition.nodes)
         .enter().append("path")
           .attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
           .attr("d", arc)
           .style("stroke", "#fff")
-          .style("fill", function(d) { return d3.hcl(d.color.h, d.color.c, d.color.l);})//color((d.children ? d : d.parent).name); })
+          .style("fill", function(d) { return d3.hcl(d.color.h, d.color.c, d.color.l);})
           .each(stash);
-
-      d3.selectAll("input").on("change", function change() {
-        var value = this.value === "count"
-            ? function() { return 1; }
-            : function(d) { return d.size; };
-
-        path
-            .data(partition.value(value).nodes)
-          .transition()
-            .duration(1500)
-            .attrTween("d", arcTween);
-      });
+    },
+    update: function(){
+      path.style("fill", function(d) { return d3.hcl(d.color.h, d.color.c, d.color.l);})
     }
   };
 
 })();
 
 function ready(fn) {
-  if (document.readyState != 'loading'){
+  if (document.readyState != "loading"){
     fn();
   } else {
-    document.addEventListener('DOMContentLoaded', fn);
+    document.addEventListener("DOMContentLoaded", fn);
   }
 }
 
 ready(function(){
-  var treeColor = TreeColors('add');
+  var additive = TreeColors("add"),
+      subtractive = TreeColors("sub"),
+      mode = additive;
 
   d3.json("flare_simplified.json", function(error, root) {
-    treeColor(root);
+    additive(root);
 
     Treemap.draw(root);
     RadialTree.draw(root);
     Sunburst.draw(root);
+
+    d3.selectAll("input").on("change", function(){
+      mode = mode == additive ? subtractive : additive;
+
+      mode(root);
+
+      Treemap.update();
+      RadialTree.update();
+      Sunburst.update();
+    });
   });
 });
