@@ -8,7 +8,10 @@
     "email": "jmjo@hcil.snu.ac.kr",
     "url": "http://www.jaeminjo.com"
   },
-  "repository": "e-/TreeColors",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:e-/TreeColors.js.git"
+  },
   "license": "MIT",
   "files": [
     "index.js"
