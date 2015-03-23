@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   var ep = 1e-6;
-  function TreeColors() {
+  function TreeColors(preset) {
     var children = 'children',
         color = 'color',
         range = [0, 360],
@@ -27,8 +27,10 @@
     function setColor(node, c) {
       if(typeof color === 'string') {
         node[color] = c;
+        return;
       } else {
         color.call(node, c);
+        return;
       }
       throw new Error('Cannot set the color of a node! Please set the \'color\' property properly.');
     }
@@ -55,7 +57,7 @@
         angle = (angle + pickingAngle) % 360;
 
         if(i < n - 1) {
-          while(picked[Math.floor(angle / unitAngle)]) {
+          while(picked[Math.floor(angle / unitAngle + ep)]) {
             angle = (angle + unitAngle) % 360;
           }
         }
@@ -85,7 +87,7 @@
       }
 
       // Let N be the number of child nodes of v. If N > 0 :
-      var n = getChildren(node).length;
+      var n = getChildren(node) ? getChildren(node).length : 0;
 
       if(n === 0) return;
 
@@ -218,12 +220,21 @@
       return treeColor;
     };
 
-    treeColor.preset = function(value) {
-      if(value === 1) {
-      } else {
-      }
-      return treeColor;
-    };
+    switch(preset) {
+      case 'add':
+      case 'additive':
+        // nothing to do. additive is the default
+        break;
+      case 'sub':
+      case 'subtractive':
+        luminanceStart = 40;
+        luminanceDelta = 10;
+        chromaStart = 75;
+        chromaDelta = -5;
+        break;
+    }
+
+    return treeColor;
   }
 
   if (typeof define === 'function' && define.amd) {

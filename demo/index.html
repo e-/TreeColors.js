@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TreeColors Demo</title>
+    <style>
+      body{
+        width:960px;
+        margin:auto;
+      }
+
+      .node {
+        border: solid 1px white;
+        font: 10px sans-serif;
+        line-height: 12px;
+        overflow: hidden;
+        position: absolute;
+        text-indent: 2px;
+      }
+
+      .node circle {
+        fill: #fff;
+        stroke-width: 1.5px;
+      }
+
+      .link {
+        fill: none;
+        stroke: #ccc;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>TreeColors Demo</h1>
+    <h2>Treemap</h2>
+    <div id="treemap"></div>
+    <h2>Radial Tree</h2>
+    <svg id="tree"></svg>
+    <h2>Sunburst</h2>
+    <svg id="sunburst"></svg>
+
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="../TreeColors.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
