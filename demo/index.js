@@ -142,7 +142,7 @@ function ready(fn) {
 
 ready(function(){
   var additive = TreeColors("add"),
-      subtractive = TreeColors("sub").fraction(1),
+      subtractive = TreeColors("sub"),
       mode = additive;
 
   d3.json("data.json", function(error, root) {
