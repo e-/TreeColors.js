@@ -1,14 +1,14 @@
 {
   "name": "treecolors",
-  "version": "0.0.0",
-  "description": "The best module ever.",
+  "version": "0.1.0",
+  "description": "A d3.js implementation of the color scheme proposed in the paper \"TreeColors: Color Schemes for Tree-Structured Data\"",
   "homepage": "e-.github.io/TreeColors.js",
   "author": {
     "name": "Jaemin Jo",
     "email": "jmjo@hcil.snu.ac.kr",
-    "url": "www.jaeminjo.com"
+    "url": "http://www.jaeminjo.com"
   },
-  "repository": "e-/treecolors",
+  "repository": "e-/TreeColors",
   "license": "MIT",
   "files": [
     "index.js"
@@ -17,8 +17,8 @@
     "treecolors",
     "tree",
     "color scheme",
-    "hierarchy",
-    "hsl",
+    "hierarchical data",
+    "hcl",
     "perception"
   ],
   "dependencies": {},
