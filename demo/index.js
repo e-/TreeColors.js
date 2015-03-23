@@ -33,6 +33,13 @@ var Treemap = (function(){
 
   var node;
 
+  function position() {
+    this.style("left", function(d) { return d.x + "px"; })
+        .style("top", function(d) { return d.y + "px"; })
+        .style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
+        .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
+  }
+
   return {
     draw: function(root) {
       node = div.datum(root).selectAll(".node")
@@ -42,16 +49,9 @@ var Treemap = (function(){
           .call(position)
           .style("background", function(d) { return d.children ? d3.hcl(d.color.h, d.color.c, d.color.l) : null; })
           .text(function(d) { return d.children ? null : d.name; });
-
-      function position() {
-        this.style("left", function(d) { return d.x + "px"; })
-            .style("top", function(d) { return d.y + "px"; })
-            .style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
-            .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
-      }
     },
     update: function(){
-      node.style("background", function(d) { return d.children ? d3.hcl(d.color.h, d.color.c, d.color.l) : null; })
+      node.transition().style("background", function(d) { return d.children ? d3.hcl(d.color.h, d.color.c, d.color.l) : null; });
     }
   };
 })();
@@ -59,7 +59,7 @@ var Treemap = (function(){
 var RadialTree = (function(){
   var tree = d3.layout.tree()
       .size([360, diameter / 2 - 120])
-      .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
+      .separation(function(a, b) { return (a.parent === b.parent ? 1 : 2) / a.depth; });
 
   var diagonal = d3.svg.diagonal.radial()
       .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
@@ -75,7 +75,7 @@ var RadialTree = (function(){
       var nodes = tree.nodes(root),
           links = tree.links(nodes);
 
-      var link = svg.selectAll(".link")
+      svg.selectAll(".link")
           .data(links)
         .enter().append("path")
           .attr("class", "link")
@@ -85,7 +85,7 @@ var RadialTree = (function(){
           .data(nodes)
         .enter().append("g")
           .attr("class", "node")
-          .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
+          .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; });
 
       node.append("circle")
           .attr("r", 4.5)
@@ -98,7 +98,7 @@ var RadialTree = (function(){
           .text(function(d) { return d.name; });
     },
     update: function(){
-      svg.selectAll('circle').attr("stroke", function(d){return d3.hcl(d.color.h, d.color.c, d.color.l).rgb();});
+      svg.selectAll('circle').transition().attr("stroke", function(d){return d3.hcl(d.color.h, d.color.c, d.color.l).rgb();});
     }
   };
 })();
@@ -108,12 +108,12 @@ var Sunburst = (function(){
       .attr("width", width)
       .attr("height", height)
     .append("g")
-      .attr("transform", "translate(" + width / 2 + "," + height * .52 + ")");
+      .attr("transform", "translate(" + width / 2 + "," + height * 0.52 + ")");
 
   var partition = d3.layout.partition()
       .sort(null)
       .size([2 * Math.PI, radius * radius])
-      .value(function(d) { return 1; });
+      .value(function() { return 1; });
 
   var arc = d3.svg.arc()
       .startAngle(function(d) { return d.x; })
@@ -123,21 +123,9 @@ var Sunburst = (function(){
 
   var path;
 
-  // Stash the old values for transition.
   function stash(d) {
     d.x0 = d.x;
     d.dx0 = d.dx;
-  }
-
-  // Interpolate the arcs in data space.
-  function arcTween(a) {
-    var i = d3.interpolate({x: a.x0, dx: a.dx0}, a);
-    return function(t) {
-      var b = i(t);
-      a.x0 = b.x;
-      a.dx0 = b.dx;
-      return arc(b);
-    };
   }
 
   return {
@@ -152,14 +140,14 @@ var Sunburst = (function(){
           .each(stash);
     },
     update: function(){
-      path.style("fill", function(d) { return d3.hcl(d.color.h, d.color.c, d.color.l);})
+      path.transition().style("fill", function(d) { return d3.hcl(d.color.h, d.color.c, d.color.l);});
     }
   };
 
 })();
 
 function ready(fn) {
-  if (document.readyState != "loading"){
+  if (document.readyState !== "loading"){
     fn();
   } else {
     document.addEventListener("DOMContentLoaded", fn);
@@ -179,7 +167,7 @@ ready(function(){
     Sunburst.draw(root);
 
     d3.selectAll("input").on("change", function(){
-      mode = mode == additive ? subtractive : additive;
+      mode = mode === additive ? subtractive : additive;
 
       mode(root);
 
