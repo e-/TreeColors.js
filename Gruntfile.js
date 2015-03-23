@@ -6,6 +6,7 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
     jshint: {
       options: {
         jshintrc: '.jshintrc'
@@ -18,6 +19,15 @@ module.exports = function (grunt) {
       },
       test: {
         src: ['test/**/*.js']
+      }
+    },
+    uglify: {
+      options: {
+        banner: '\/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> *\/\n'
+      },
+      build: {
+        src: 'TreeColors.js',
+        dest: 'TreeColors.min.js'
       }
     },
     watch: {
@@ -36,5 +46,5 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('default', ['jshint', 'uglify']);
 };
