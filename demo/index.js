@@ -12,11 +12,10 @@ var width = 960,
 */
 
 var margin = {top: 5, right: 10, bottom: 5, left: 10},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom,
-    diameter = 700,
+    width = 450 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom,
+    diameter = 450,
     radius = Math.min(width, height) / 2;
-
 
 var Treemap = (function(){
   var treemap = d3.layout.treemap()
@@ -65,10 +64,10 @@ var RadialTree = (function(){
       .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
 
   var svg = d3.select("#tree")
-      .attr("width", diameter)
-      .attr("height", diameter)
+      .attr("width", width)
+      .attr("height", height)
     .append("g")
-      .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
   return {
     draw: function(root) {
@@ -108,7 +107,7 @@ var Sunburst = (function(){
       .attr("width", width)
       .attr("height", height)
     .append("g")
-      .attr("transform", "translate(" + width / 2 + "," + height * 0.52 + ")");
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
   var partition = d3.layout.partition()
       .sort(null)
@@ -159,7 +158,7 @@ ready(function(){
       subtractive = TreeColors("sub"),
       mode = additive;
 
-  d3.json("flare_simplified.json", function(error, root) {
+  d3.json("data.json", function(error, root) {
     additive(root);
 
     Treemap.draw(root);

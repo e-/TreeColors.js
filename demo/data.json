@@ -1,0 +1,143 @@
+{
+  "name": "root",
+  "children": [
+    {
+      "name": "A",
+      "children": [
+        {
+          "name": "A.1",
+          "children": [
+            {"name": "A.1.a", "size": 1.5}
+          ]
+        },
+        {
+          "name": "A.2",
+          "children": [
+            {"name": "A.2.a", "size": 1.2},
+            {"name": "A.2.b", "size": 1},
+            {"name": "A.2.c", "size": 1.3}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "B",
+      "children": [
+        {
+          "name": "B.1",
+          "children": [
+            {"name": "B.1.a", "size": 1.8},
+            {"name": "B.1.b", "size": 1.5},
+            {"name": "B.1.c", "size": 1.8}
+          ]
+        },
+        {
+          "name": "B.2",
+          "children": [
+            {"name": "B.2.a", "size": 1.7},
+            {"name": "B.2.b", "size": 1.6}
+          ]
+        },
+        {
+          "name": "B.3",
+          "children": [
+            {"name": "B.3.a", "size": 1.3},
+            {"name": "B.3.b", "size": 1.1}
+          ]
+        },
+        {
+          "name": "B.4",
+          "children": [
+            {"name": "B.4.a", "size": 1.6},
+            {"name": "B.4.b", "size": 1.7},
+            {"name": "B.4.c", "size": 1.3},
+            {"name": "B.4.d", "size": 1.9}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "C",
+      "children": [
+        {
+          "name": "C.1",
+          "children": [
+            {"name": "C.1.a", "size": 1.3},
+            {"name": "C.1.b", "size": 1.7}
+          ]
+        },
+        {
+          "name": "C.2",
+          "children": [
+            {"name": "C.2.a", "size": 1.8},
+            {"name": "C.2.b", "size": 1.4},
+            {"name": "C.2.c", "size": 1.5}
+          ]
+        },
+        {
+          "name": "C.3",
+          "children": [
+            {"name": "C.3.a", "size": 1.7},
+            {"name": "C.3.b", "size": 1.9}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "D",
+      "children": [
+        {
+          "name": "D.1",
+          "children": [
+            {"name": "D.1.a", "size": 1.5}
+          ]
+        },
+        {
+          "name": "D.2",
+          "children": [
+            {"name": "D.2.a", "size": 1.2},
+            {"name": "D.2.b", "size": 1},
+            {"name": "D.2.c", "size": 1.3}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "E",
+      "children": [
+        {
+          "name": "E.1",
+          "children": [
+            {"name": "E.1.a", "size": 1.8},
+            {"name": "E.1.b", "size": 1.5},
+            {"name": "E.1.c", "size": 1.8}
+          ]
+        },
+        {
+          "name": "E.2",
+          "children": [
+            {"name": "E.2.a", "size": 1.7},
+            {"name": "E.2.b", "size": 1.6}
+          ]
+        },
+        {
+          "name": "E.3",
+          "children": [
+            {"name": "E.3.a", "size": 1.3},
+            {"name": "E.3.b", "size": 1.1}
+          ]
+        },
+        {
+          "name": "E.4",
+          "children": [
+            {"name": "E.4.a", "size": 1.6},
+            {"name": "E.4.b", "size": 1.7},
+            {"name": "E.4.c", "size": 1.3},
+            {"name": "E.4.d", "size": 1.9}
+          ]
+        }
+      ]
+    }
+  ]
+}
+

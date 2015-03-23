@@ -1,7 +1,8 @@
-#  [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-url]][daviddm-image]
+[![Build Status](https://travis-ci.org/e-/TreeColors.js.svg?branch=master)](https://travis-ci.org/e-/TreeColors.js)
 
-> The best module ever.
+# TreeColors.js
 
+> A d3.js implementation of the color scheme proposed in the paper "TreeColors: Color Schemes for Tree-Structured Data"
 
 ## Install
 
@@ -21,12 +22,4 @@ treecolors('Rainbow');
 
 ## License
 
-MIT © [Jaemin Jo](www.jaeminjo.com)
-
-
-[npm-url]: https://npmjs.org/package/treecolors
-[npm-image]: https://badge.fury.io/js/treecolors.svg
-[travis-url]: https://travis-ci.org/e-/treecolors
-[travis-image]: https://travis-ci.org/e-/treecolors.svg?branch=master
-[daviddm-url]: https://david-dm.org/e-/treecolors.svg?theme=shields.io
-[daviddm-image]: https://david-dm.org/e-/treecolors
+MIT © [Jaemin Jo](http://www.jaeminjo.com)

@@ -30,6 +30,14 @@
         stroke: #ccc;
         stroke-width: 1.5px;
       }
+
+      .block{
+        width:450px;
+        float:left;
+        margin-right:20px;
+        margin-bottom:15px;
+      }
+
     </style>
   </head>
   <body>
@@ -38,12 +46,18 @@
       <label><input type="radio" name="mode" value="sub" checked>Additive</label>
       <label><input type="radio" name="mode" value="add">Subtractive</label>
     </form>
-    <h2>Treemap</h2>
-    <div id="treemap"></div>
-    <h2>Radial Tree</h2>
-    <svg id="tree"></svg>
-    <h2>Sunburst</h2>
-    <svg id="sunburst"></svg>
+    <div class="block">
+      <h2>Treemap</h2>
+      <div id="treemap"></div>
+    </div>
+    <div class="block">
+      <h2>Radial Tree</h2>
+      <svg id="tree"></svg>
+    </div>
+    <div class="block" style="clear:left">
+      <h2>Sunburst</h2>
+      <svg id="sunburst"></svg>
+    </div>
 
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="../TreeColors.js"></script>
