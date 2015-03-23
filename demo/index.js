@@ -1,16 +1,3 @@
-/*
-
-// go tree
-
-
-// go sunburst
-
-var width = 960,
-    height = 700,
-    color = d3.scale.category20c();
-
-*/
-
 var margin = {top: 5, right: 10, bottom: 5, left: 10},
     width = 450 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom,
