@@ -115,8 +115,8 @@
       //   However, now, we reverse them later.
 
       r = r.map(function(range) { return [
-        range[0] + (range[1] - range[0]) * (fraction / 2),
-        range[1] - (range[1] - range[0]) * (fraction / 2)
+        range[0] + (range[1] - range[0]) * ((1 - fraction) / 2),
+        range[1] - (range[1] - range[0]) * ((1 - fraction) / 2)
       ]; });
 
       //5. if rev then reverse the even-numbered ri’s;
