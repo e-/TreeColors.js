@@ -12,7 +12,7 @@
         luminanceDelta = -10,
         chromaStart = 60,
         chromaDelta = 5,
-        rootColor = {h: 0, c: 100, l: 100}
+        rootColor = {h: 0, c: 0, l: 70}
         ;
 
     function getChildren(node) {

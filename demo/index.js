@@ -75,7 +75,7 @@ var RadialTree = (function(){
 
       node.append("circle")
           .attr("r", 4.5)
-          .attr("stroke", function(d){return d3.hcl(d.color.h, d.color.c, d.color.l).rgb();});
+          .attr("fill", function(d){return d3.hcl(d.color.h, d.color.c, d.color.l).rgb();});
 
       node.append("text")
           .attr("dy", ".31em")
@@ -84,7 +84,7 @@ var RadialTree = (function(){
           .text(function(d) { return d.name; });
     },
     update: function(){
-      svg.selectAll('circle').transition().attr("stroke", function(d){return d3.hcl(d.color.h, d.color.c, d.color.l).rgb();});
+      svg.selectAll('circle').transition().attr("fill", function(d){return d3.hcl(d.color.h, d.color.c, d.color.l).rgb();});
     }
   };
 })();
@@ -142,7 +142,7 @@ function ready(fn) {
 
 ready(function(){
   var additive = TreeColors("add"),
-      subtractive = TreeColors("sub"),
+      subtractive = TreeColors("sub").fraction(1),
       mode = additive;
 
   d3.json("data.json", function(error, root) {
