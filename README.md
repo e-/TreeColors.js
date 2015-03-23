@@ -4,21 +4,9 @@
 
 > A d3.js implementation of the color scheme proposed in the paper "TreeColors: Color Schemes for Tree-Structured Data"
 
-## Install
-
-```sh
-$ npm install --save treecolors
-```
-
-
 ## Usage
 
-```js
-var treecolors = require('treecolors');
-
-treecolors('Rainbow');
-```
-
+will be provided soon.
 
 ## License
 
