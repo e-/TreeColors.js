@@ -1,7 +1,7 @@
 {
   "name": "treecolors",
   "version": "0.1.0",
-  "description": "A d3.js implementation of the color scheme proposed in the paper \"TreeColors: Color Schemes for Tree-Structured Data\"",
+  "description": "A javascript implementation of the color scheme proposed in the paper \"TreeColors: Color Schemes for Tree-Structured Data\"",
   "homepage": "e-.github.io/TreeColors.js",
   "author": {
     "name": "Jaemin Jo",
