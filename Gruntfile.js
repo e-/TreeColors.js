@@ -18,7 +18,7 @@ module.exports = function (grunt) {
         src: ['TreeColors.js', 'demo/*.js']
       },
       test: {
-        src: ['test/**/*.js']
+        src: ['test/*.js']
       }
     },
     uglify: {
@@ -43,8 +43,11 @@ module.exports = function (grunt) {
         files: '<%= jshint.test.src %>',
         tasks: ['jshint:test']
       }
+    },
+    nodeunit: {
+      all: ['test/*.js']
     }
   });
 
-  grunt.registerTask('default', ['jshint', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'nodeunit', 'uglify']);
 };

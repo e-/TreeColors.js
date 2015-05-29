@@ -1,6 +1,7 @@
 (function(){
   'use strict';
-  var ep = 1e-6;
+  var ep = 1e-15;
+
   function TreeColors(preset) {
     var children = 'children',
         color = 'color',
@@ -35,40 +36,9 @@
       throw new Error('Cannot set the color of a node! Please set the \'color\' property properly.');
     }
 
-    function getPermutationSequence(n){
-      if(n <= 2) return [0, 1];
-      if(n === 3) return [0, 2, 1];
-      if(n === 4) return [0, 2, 1, 3];
-
-      // 144 is not a magic number. It is because the used permutation order is based on five-elements-permutation.
-      var unitAngle = 360 / n,
-          pickingAngle = Math.floor(144 / unitAngle) * unitAngle,
-          sequence = new Array(n),
-          picked = new Array(n),
-          angle = 0
-          ;
-
-      for(var i = 0; i < n; ++i){
-        var index = Math.floor(angle / unitAngle + ep);
-
-        sequence[i] = index;
-        picked[index] = true;
-
-        angle = (angle + pickingAngle) % 360;
-
-        if(i < n - 1) {
-          while(picked[Math.floor(angle / unitAngle + ep)]) {
-            angle = (angle + unitAngle) % 360;
-          }
-        }
-      }
-
-      return sequence;
-    }
-
     function doPermutation(r) {
       var n = r.length,
-          sequence = getPermutationSequence(n),
+          sequence = TreeColors.getPermutationSequence(n),
           permutated = new Array(n);
 
       r.forEach(function(value, index) {
@@ -236,6 +206,40 @@
 
     return treeColor;
   }
+
+  TreeColors.getPermutationSequence = function(n){
+    if(n === 0) return [];
+    if(n === 1) return [0];
+    if(n === 2) return [0, 1];
+    if(n === 3) return [0, 2, 1];
+    if(n === 4) return [0, 2, 1, 3];
+
+    // 144 is not a magic number. It is because the used permutation order is based on five-elements-permutation.
+    var unitAngle = 360 / n,
+        pickingAngle = Math.floor(144 / unitAngle) * unitAngle,
+        sequence = new Array(n),
+        picked = new Array(n),
+        angle = 0
+        ;
+
+    for(var i = 0; i < n; ++i){
+      var index = Math.floor(angle / unitAngle + ep);
+
+      sequence[i] = index;
+      picked[index] = true;
+
+      angle = (angle + pickingAngle) % 360;
+
+      if(i < n - 1) {
+        while(picked[Math.floor(angle / unitAngle + ep)]) {
+          angle = (angle + unitAngle) % 360;
+        }
+      }
+    }
+
+    return sequence;
+  };
+
 
   if (typeof define === 'function' && define.amd) {
     define(function() {
