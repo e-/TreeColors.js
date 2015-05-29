@@ -2,7 +2,7 @@
 
 # TreeColors.js
 
-> A javascript implementation of the color scheme proposed in the paper "TreeColors: Color Schemes for Tree-Structured Data"
+> A javascript implementation of the color scheme proposed in the paper "TreeColors: Color Schemes for Tree-Structured Data" by [Martijn Tennekes](https://github.com/mtennekes) and [Edwin de Jonge](https://github.com/edwindj)
 
 ## Usage
 
