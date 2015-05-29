@@ -1,6 +1,6 @@
 {
   "name": "treecolors",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A javascript implementation of the color scheme proposed in the paper \"TreeColors: Color Schemes for Tree-Structured Data\"",
   "homepage": "http://e-.github.io/TreeColors.js/demo/",
   "author": {
@@ -13,9 +13,7 @@
     "url": "git@github.com:e-/TreeColors.js.git"
   },
   "license": "MIT",
-  "files": [
-    "index.js"
-  ],
+  "main": "TreeColors.js",
   "keywords": [
     "treecolors",
     "tree",
