@@ -67,7 +67,7 @@ console.log(tree.color); // { h: 0, c: 0, l: 70 }
 console.log(tree.children[0].color); // { h: 90, c: 65, l: 60 }
 ```
 
-Node that we are using the HCL color space rather than the RGB color space. This is because the HCL color space is more balanced than the RGB color space in terms of human perception.  For more information, please refer to [the original paper](http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=6875961&tag=1) or this webpage([http://hclwizard.org/why-hcl/](http://hclwizard.org/why-hcl/)).
+Note that we are using the HCL color space rather than the RGB color space. This is because the HCL color space is more balanced than the RGB color space in terms of human perception.  For more information, please refer to [the original paper](http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=6875961&tag=1) or this webpage([http://hclwizard.org/why-hcl/](http://hclwizard.org/why-hcl/)).
 
 Unfortunately, modern web browsers do not support the HCL color space. Therefore, you need to convert HCL color values to RGB color values. If you are using d3.js, it is super easy:
 
